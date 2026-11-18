@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — monochrome editorial palette inspired by classic barbering:
+ * near-black "ink" canvas, white "paper" panels, blackletter display type and
+ * a monospaced body face.
+ */
+@theme {
+  --color-ink: #111111;
+  --color-ink-soft: #1a1a1a;
+  --color-ink-line: #2f2f2f;
+  --color-paper: #ffffff;
+  --color-paper-soft: #f5f4f2;
+  --color-paper-line: #8c8c8c;
+  --color-smoke: #a3a3a3; /* muted text on ink (7.6:1) */
+  --color-ash: #595959; /* muted text on paper (7:1) */
+  --color-danger: #b42318;
+  --color-danger-soft: #fda29b;
+  --color-success: #067647;
+  --color-success-soft: #75e0a7;
+
+  --animate-marquee: marquee 45s linear infinite;
+  --animate-fade-up: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @keyframes marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 12px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}
+
+@theme inline {
+  --font-display: var(--font-blackletter), "Old English Text MT", serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    monospace;
+  --font-sans: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    monospace;
+}
+
+@layer base {
+  :root {
+    --header-height: 64px;
+
+    @media (width >= 40rem) {
+      --header-height: 72px;
+    }
+  }
+
+  html {
+    scroll-padding-top: calc(var(--header-height) + 1rem);
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  /*
+   * Below xl the booking SummaryBar (~60px, BookingSummary.tsx) sticks under
+   * the header; focused or anchored content must clear both, not just the header.
+   */
+  @media (width < 80rem) {
+    html:has([data-summary-bar]) {
+      scroll-padding-top: calc(var(--header-height) + 5rem);
+    }
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-mono);
+    font-feature-settings: "ss01", "ss02";
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  /* Paper panels flip the native control palette to light. */
+  .theme-paper {
+    color-scheme: light;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  .theme-paper ::selection {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility container-site {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1440px;
+  padding-inline: 1rem;
+
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+}
+
+@utility font-blackletter {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0;
+  font-feature-settings: normal;
+}
+
+@utility rule-dashed {
+  border-style: dashed;
+  border-color: var(--color-paper-line);
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}

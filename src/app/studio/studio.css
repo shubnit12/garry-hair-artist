@@ -1,0 +1,24 @@
+/*
+ * The embedded Studio ships its own design system. Undo the few site-wide base
+ * styles from globals.css that would otherwise leak into it. Unlayered rules
+ * win over the site's `@layer base`, so no !important is needed.
+ */
+
+html:has(#sanity) {
+  /* Pane scrolling in the Studio should be instant. */
+  scroll-behavior: auto;
+}
+
+#sanity {
+  font-feature-settings: normal;
+  text-rendering: auto;
+}
+
+/*
+ * Undo the site's focus outline (Sanity UI draws its own focus rings). Zero
+ * specificity, so wherever Sanity sets an outline itself, Sanity wins.
+ */
+:where(#sanity :focus-visible) {
+  outline: revert;
+  outline-offset: revert;
+}
