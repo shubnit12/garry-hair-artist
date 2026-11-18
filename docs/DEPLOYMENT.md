@@ -230,7 +230,7 @@ Create a **private** repository on GitHub and push this project to it (`git push
 Do **not** set `BOOKING_STORE` on Vercel.
 
 5. Click **Deploy** and wait for the build to finish (a few minutes).
-6. In the project → **Settings** → **Build and Deployment** → **Node.js Version**, select **24.x** and save, then **Redeploy** (Deployments → latest → **⋯** → **Redeploy**). The runtime must have timezone data **2026b or newer** — see [step 4](#4-run-the-site-on-your-computer) for why. (The `engines` field in `package.json` takes precedence over this setting; the build log shows which Node.js version was actually used.)
+6. In the project → **Settings** → **Build and Deployment** → **Node.js Version**, select **24.x** and save, then **Redeploy** (Deployments → latest → **⋯** → **Redeploy**). The runtime must have timezone data **2026b or newer** — see [step 4](#4-run-the-site-on-your-computer) for why. (`package.json` pins `"engines": { "node": "24.x" }`, which takes precedence over this setting, so Vercel stays on Node.js 24 and never jumps to a new major version on its own. To move to a newer major later, change it there. The build log shows which version was used.)
 7. **Check the timezone data after every deploy.** Open the live site once (so a server starts), then go to the project → **Logs** and search for `Timezone data`. A line like `[booking] Timezone data 2025b predates 2026b …` means this runtime has old data and appointments from 1 November 2026 will be an hour off in calendar invites: select the newest Node.js version offered, redeploy and check again. No such line = all good. (The [post-launch checklist](#9-post-launch-checklist) includes a booking test that confirms it end to end.)
 
 > `NEXT_PUBLIC_*` values are baked in when the site is built. After changing any of them, go to **Deployments** → latest → **⋯** → **Redeploy**.
@@ -355,7 +355,7 @@ Check the Vercel environment variables (and redeploy after changing them), that 
 The website accepts about three bookings per email address in 24 hours, and at most two upcoming appointments per email address. Past that, it asks the client to contact Garry, who can change their booking or add one himself in the Studio (Calendar → New booking). Other refusals ("too many requests") clear after a few minutes.
 
 **Calendar invites show appointments an hour off**
-The server's timezone data is older than 2026b (see step 7.2). Vercel → **Logs** shows a `[booking] Timezone data … predates 2026b` line. Select the newest Node.js version in Settings → Build and Deployment → Node.js Version and redeploy. Invites already sent keep the wrong time — check upcoming appointments after 1 November 2026 and tell the affected clients.
+The server's timezone data is older than 2026b (see step 7.2). Vercel → **Logs** shows a `[booking] Timezone data … predates 2026b` line. Redeploy so the build picks up the newest Node.js 24 release; if its data is still too old, raise `engines.node` in `package.json` to the newest major version Vercel offers and redeploy. Invites already sent keep the wrong time — check upcoming appointments after 1 November 2026 and tell the affected clients.
 
 **Emails don't arrive, or land in spam**
 - In Resend, the domain must show **Verified** and `EMAIL_FROM` must use that domain. The default `onboarding@resend.dev` sender only delivers to your own Resend login email.
