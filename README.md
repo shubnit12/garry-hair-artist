@@ -31,7 +31,7 @@ Design: a monochrome editorial look — near-black canvas, white "paper" panels,
 
 ## Quick start
 
-Requires **Node.js 24.x** (22.12+ works) with timezone data **2026b or newer** — check with `node -p process.versions.tz`. BC stays on UTC−7 all year from 1 November 2026, and older timezone data puts appointments from then on an hour off in calendar invites. The server logs `[booking] Timezone data … predates 2026b` at startup when the data is too old.
+Requires **Node.js 24.x** (pinned in `package.json`; 22.12+ also runs locally) with timezone data **2026b or newer** — check with `node -p process.versions.tz`. BC stays on UTC−7 all year from 1 November 2026, and older timezone data puts appointments from then on an hour off in calendar invites. The server logs `[booking] Timezone data … predates 2026b` at startup when the data is too old.
 
 ### Without Sanity (look around in two minutes)
 
