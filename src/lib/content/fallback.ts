@@ -71,7 +71,7 @@ export const fallbackSiteSettings: SiteSettings = {
     "Cuts · Colour · Smoothening · Treatments",
     "Have a good hair day",
   ],
-  email: "hello@garryhair.com",
+  email: "garry@garryhairartist.com",
   phone: undefined,
   address: {
     city: "Surrey",
