@@ -19,7 +19,7 @@ export const sanityWebhookSecret = process.env.SANITY_WEBHOOK_SECRET ?? "";
 export const bookingStoreOverride = process.env.BOOKING_STORE ?? "";
 
 export const resendApiKey = process.env.RESEND_API_KEY ?? "";
-/** Verified sender, e.g. "Garry Hair Artist <bookings@garryhairartist.com>". */
+/** Verified sender, e.g. "Garry Hair Artist <garry@garryhairartist.com>" (a real mailbox: replies go here). */
 export const emailFrom =
   process.env.EMAIL_FROM || "Garry Hair Artist <onboarding@resend.dev>";
 /** Where new-booking and contact notifications are sent (comma separated). */
