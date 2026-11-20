@@ -154,7 +154,7 @@ The site sends: a new-booking email to Garry, a confirmation (with calendar invi
 
 1. Sign up at <https://resend.com>.
 2. **Domains** → **Add domain** → enter `<domain>` (or a subdomain such as `mail.<domain>`) → pick the region closest to you (e.g. North America).
-3. Resend shows several DNS records (typically an **MX** and **TXT** record for a `send` subdomain, and a **TXT** DKIM record named `resend._domainkey`). Add each one **exactly as shown** at your DNS provider. Recommended extra record for deliverability:
+3. Resend shows the DNS records to add: a **TXT** DKIM record named `resend._domainkey`, plus the sending records for the `send` subdomain (currently two **CNAME** records, `send` and `rsend`; older accounts showed an **MX** and a **TXT** for `send`). Add each one **exactly as Resend shows it** at your DNS provider, using the copy button so long values aren't cut off. Most providers (Hostinger included) add the domain to the name themselves, so type only `send`, `rsend` or `resend._domainkey`. If Resend offers a **receiving** (inbound email) option, leave it off: Garry's mail already arrives in his existing mailbox, and an extra MX record for the domain would divert it. If the domain has no DMARC record yet, add one for deliverability:
 
    | Type | Name | Value |
    |---|---|---|
@@ -167,11 +167,11 @@ Values for `.env.local` / Vercel:
 
 ```dotenv
 RESEND_API_KEY=re_...
-EMAIL_FROM="Garry Hair Artist <bookings@<domain>>"
+EMAIL_FROM="Garry Hair Artist <garry@<domain>>"
 BOOKING_NOTIFICATION_EMAIL=<Garry's inbox, e.g. garry@<domain>>
 ```
 
-`EMAIL_FROM` **must** use the verified domain. `BOOKING_NOTIFICATION_EMAIL` can hold several addresses separated by commas; Garry can add more later in the Studio (Booking settings → Notification emails), but addresses entered there are readable by anyone through Sanity's API — keep private inboxes in `BOOKING_NOTIFICATION_EMAIL`.
+`EMAIL_FROM` **must** use the verified domain and should be a **real mailbox** Garry reads: client emails say "just reply to this email" and replies go to the sender address. `BOOKING_NOTIFICATION_EMAIL` can hold several addresses separated by commas; Garry can add more later in the Studio (Booking settings → Notification emails), but addresses entered there are readable by anyone through Sanity's API — keep private inboxes in `BOOKING_NOTIFICATION_EMAIL`.
 
 > Adding Resend's records does **not** affect an existing mailbox on the domain — do not delete existing MX records for the root domain if Garry already receives email there.
 
@@ -224,7 +224,7 @@ Create a **private** repository on GitHub and push this project to it (`git push
 | `SANITY_WEBHOOK_SECRET` | from step 6 |
 | `BOOKING_TOKEN_SECRET` | from step 6 |
 | `RESEND_API_KEY` | from step 5 |
-| `EMAIL_FROM` | `Garry Hair Artist <bookings@<domain>>` |
+| `EMAIL_FROM` | `Garry Hair Artist <garry@<domain>>` (a real mailbox) |
 | `BOOKING_NOTIFICATION_EMAIL` | Garry's inbox |
 
 Do **not** set `BOOKING_STORE` on Vercel.
